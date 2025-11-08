@@ -10,6 +10,10 @@ Visualized cell lineage trees from tracking data and analyzed cell division patt
 Lineage Tree for Root Cells
 ![Lineage Tree per root](results.png)
 
+# Animation
+Animation of a Lineage Tree
+![lineage_anim](https://github.com/user-attachments/assets/2bd8b1b5-37f2-4219-870d-2910485e7724))
+
 ## Statistics
 #### <i> LIFESPAN </i>
 - Total no. of cells (for which lifespan was calculated:  8
