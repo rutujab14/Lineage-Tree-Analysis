@@ -22,8 +22,13 @@ Lineage Tree for Root Cells
 ![Lineage Tree per root](results.png)
 
 # Animation
-Animation of a Lineage Tree
+Lineage Tree Animations
+
 ![lineage_anim](https://github.com/user-attachments/assets/2bd8b1b5-37f2-4219-870d-2910485e7724))
+![lineage_638](https://github.com/user-attachments/assets/5ad16ca0-9bd4-4753-93e3-0b0532b9ef0a)
+![lineage_526](https://github.com/user-attachments/assets/71ef291e-0886-4944-acac-a2b55b8a6aaf)
+![lineage_317](https://github.com/user-attachments/assets/eb1a061b-9841-4c9a-a41a-b752154835d8)
+![lineage_287](https://github.com/user-attachments/assets/2e034d7f-0534-4cdb-af8a-6a298e25f65f)
 
 ## Statistics
 #### <i> LIFESPAN </i>
