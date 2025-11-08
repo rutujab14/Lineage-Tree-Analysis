@@ -10,9 +10,12 @@ Visualized cell lineage trees from tracking data and analyzed cell division patt
     - Build Parent-Child Relationships (map)
     - Count Descendants (top 5)
     - Isolate the full family tree of each of the top 5 roots (subset)
-3. Calculated statistics: lifespan, division frequency, morphology distribution
     - Built a directed graph (nx.DiGraph) for each lineage
     - Plot all 5 trees
+3. Calculated statistics: lifespan, division frequency, morphology distribution
+    - Lifespan: Analyzed how long cells lived before dividing or dying
+    - Division frequency: Measured how often cells divides
+    - Morphology Distribution: Examined how many cells are divided vs. elongated
 
 # Results
 Lineage Tree for Root Cells
