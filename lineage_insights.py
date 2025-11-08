@@ -11,6 +11,7 @@ import pandas as pd
 from collections import defaultdict
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 
 df = pd.read_csv("lineage_data.csv")
 
@@ -67,8 +68,7 @@ for root, _ in top5:
 morph_colors = {
     'Divided': 'green',
     'Elongated': 'blue',
-    'Normal': 'red',
-    None: 'gray'  # for missing morphology
+    'None': 'gray'  # for missing morphology
 }
 
 for _, sub_df in top5_lineages:
@@ -86,24 +86,32 @@ def hierarchy_pos(G, root=None, width=1., vert_gap=0.2, vert_loc=0, xcenter=0.5)
     _hierarchy_pos(G, root, 0, width, vert_loc)
     return pos
 
-for root, sub_df in top5_lineages:
+fig, axes = plt.subplots(1, len(top5_lineages), figsize=(25, 6))
+
+for ax, (root, sub_df) in zip(axes, top5_lineages):
     G = nx.DiGraph()
     for _, row in sub_df.iterrows():
         if row['parent_id'] != 0:
             G.add_edge(row['parent_id'], row['track_id'])
 
-    plt.figure(figsize=(10, 6))
     pos = hierarchy_pos(G, root=root)
 
+    # Map node colors, use 'None/Other' for missing
     node_colors = [
-        morph_colors.get(sub_df.loc[sub_df['track_id']==n, 'morphology_class'].values[0], 'gray')
-        for n in G.nodes()
+        morph_colors.get(row, 'gray')
+        for row in sub_df.set_index('track_id')['morphology_class'].reindex(G.nodes()).fillna('None/Other')
     ]
 
     nx.draw(G, pos=pos, with_labels=True, node_color=node_colors,
-            node_size=500, arrowsize=15)
-    plt.title(f'Lineage Tree for Root Cell {root}')
-    plt.show()
+            node_size=500, arrowsize=15, edge_color='lightgray', ax=ax)
+    ax.set_title(f'Root {root}', fontsize=12)
+
+# Create one shared legend for the whole figure
+legend_elements = [Patch(facecolor=color, label=morph) for morph, color in morph_colors.items()]
+fig.legend(handles=legend_elements, title="Morphology", loc='upper center', ncol=len(morph_colors), fontsize=10)
+
+plt.tight_layout(rect=[0, 0, 1, 0.9])  # Leave space on top for legend
+plt.show()
 
 """Lifespan"""
 
