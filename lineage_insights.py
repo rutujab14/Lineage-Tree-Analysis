@@ -13,9 +13,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
+#read csv
 df = pd.read_csv("lineage_data.csv")
-
-df.head(5)
 
 df['morphology_class'].unique()
 
@@ -42,8 +41,6 @@ print(f"Descendants of Root: {descendantCount}")
 
 top5 = sorted(descendantCount.items(), key=lambda x: x[1], reverse=True)[:5]
 
-top5
-
 for root, size in top5:
   print(f"Root {root} --> {size} descendants")
 
@@ -65,6 +62,7 @@ for root, _ in top5:
   sub_df = df[df['track_id'].isin(lineage_cells)].copy()
   top5_lineages.append((root, sub_df))
 
+#VISUALIZATION
 morph_colors = {
     'Divided': 'green',
     'Elongated': 'blue',
@@ -96,7 +94,6 @@ for ax, (root, sub_df) in zip(axes, top5_lineages):
 
     pos = hierarchy_pos(G, root=root)
 
-    # Map node colors, use 'None/Other' for missing
     node_colors = [
         morph_colors.get(row, 'gray')
         for row in sub_df.set_index('track_id')['morphology_class'].reindex(G.nodes()).fillna('None/Other')
@@ -106,17 +103,15 @@ for ax, (root, sub_df) in zip(axes, top5_lineages):
             node_size=500, arrowsize=15, edge_color='lightgray', ax=ax)
     ax.set_title(f'Root {root}', fontsize=12)
 
-# Create one shared legend for the whole figure
+# shared legend for the whole figure
 legend_elements = [Patch(facecolor=color, label=morph) for morph, color in morph_colors.items()]
 fig.legend(handles=legend_elements, title="Morphology", loc='upper center', ncol=len(morph_colors), fontsize=10)
 
 plt.tight_layout(rect=[0, 0, 1, 0.9])  # Leave space on top for legend
 plt.show()
 
-"""Lifespan"""
-
+#STATISTICS
 df['lifespan'] = df['end_frame'] - df['start_frame']
-
 df['lifespan']
 
 lifespan_stats = df['lifespan'].describe()
@@ -133,7 +128,6 @@ for root, sub_df in top5_lineages:
   sub_df['lifespan'] = sub_df['end_frame'] - sub_df['start_frame']
   print(f"Root id {root}: {sub_df['lifespan'].mean():.2f} frames")
 
-"""Division frequency"""
 
 divisions = df[df['morphology_class'] == "Divided"].shape[0]
 total_cells = df.shape[0]
@@ -142,7 +136,6 @@ print(f"Total Divisions: {divisions}")
 print(f"Total cells: {total_cells}")
 print(f"\nDivision Frequency: {div_freq:.2f}")
 
-"""Morphology Distribution"""
 
 morph_dist = df['morphology_class'].value_counts()
 morph_dist_per = df['morphology_class'].value_counts(normalize=True) * 100
